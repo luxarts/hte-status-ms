@@ -1,13 +1,20 @@
 package router
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/luxarts/jsend-go"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"hte-status-ms/internal/controller"
 	"hte-status-ms/internal/defines"
 	"hte-status-ms/internal/repository"
 	"hte-status-ms/internal/service"
+	"log"
 	"net/http"
+	"os"
 )
 
 func New() *gin.Engine {
@@ -20,9 +27,17 @@ func New() *gin.Engine {
 
 func mapRoutes(r *gin.Engine) {
 	// DB connectors, rest clients, and other stuff init
-
+	ctx := context.Background()
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv(defines.EnvMongoDBURI)))
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = client.Ping(ctx, readpref.Primary())
+	if err != nil {
+		log.Fatalln(err)
+	}
 	// Repositories init
-	repo := repository.NewStatusRepository()
+	repo := repository.NewStatusRepository(client)
 
 	// Services init
 	svc := service.NewStatusService(repo)

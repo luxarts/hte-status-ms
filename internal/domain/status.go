@@ -6,10 +6,10 @@ type Coordinates struct {
 }
 
 type Status struct {
-	DeviceID    string      `json:"device_id"`
-	Timestamp   int64       `json:"ts"`
-	Battery     int64       `json:"bat"`
-	Coordinates Coordinates `json:"coords"`
+	DeviceID    string      `json:"device_id" bson:"device_id"`
+	Timestamp   int64       `json:"ts" bson:"ts"`
+	Battery     int64       `json:"bat" bson:"bat"`
+	Coordinates Coordinates `json:"coords" bson:"coords"`
 }
 
 func (p *Status) IsValid() bool {
