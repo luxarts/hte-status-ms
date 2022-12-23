@@ -1,4 +1,4 @@
-module go-rest-template
+module hte-status-ms
 
 go 1.16
 

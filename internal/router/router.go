@@ -3,10 +3,10 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/luxarts/jsend-go"
-	"go-rest-template/internal/controller"
-	"go-rest-template/internal/defines"
-	"go-rest-template/internal/repository"
-	"go-rest-template/internal/service"
+	"hte-status-ms/internal/controller"
+	"hte-status-ms/internal/defines"
+	"hte-status-ms/internal/repository"
+	"hte-status-ms/internal/service"
 	"net/http"
 )
 
@@ -22,16 +22,16 @@ func mapRoutes(r *gin.Engine) {
 	// DB connectors, rest clients, and other stuff init
 
 	// Repositories init
-	repo := repository.NewExampleRepository()
+	repo := repository.NewStatusRepository()
 
 	// Services init
-	svc := service.NewExampleService(repo)
+	svc := service.NewStatusService(repo)
 
 	// Controllers init
-	ctrl := controller.NewExampleController(svc)
+	ctrl := controller.NewStatusController(svc)
 
 	// Endpoints
-	r.GET(defines.EndpointExample, ctrl.ExampleHandler)
+	r.PUT(defines.EndpointUpdateStatus, ctrl.Update)
 
 	// Health check endpoint
 	r.GET(defines.EndpointPing, healthCheck)
