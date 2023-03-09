@@ -2,6 +2,7 @@ package router
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/luxarts/jsend-go"
@@ -28,7 +29,10 @@ func New() *gin.Engine {
 func mapRoutes(r *gin.Engine) {
 	// DB connectors, rest clients, and other stuff init
 	ctx := context.Background()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv(defines.EnvMongoDBURI)))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(
+		fmt.Sprintf("mongodb://%s",
+			os.Getenv(defines.EnvMongoHost),
+		)))
 	if err != nil {
 		log.Fatalln(err)
 	}

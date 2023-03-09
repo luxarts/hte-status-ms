@@ -1,5 +1,5 @@
 package defines
 
 const (
-	EnvMongoDBURI = "MONGODB_URI"
+	EnvMongoHost = "MONGO_HOST"
 )
